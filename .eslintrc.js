@@ -15,5 +15,7 @@ module.exports = {
   plugins: ["react", "@typescript-eslint"],
   rules: {
     "require-jsdoc": 0,
+    camelcase: 0,
+    "react/prop-types": 0,
   },
 };
