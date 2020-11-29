@@ -1,5 +1,6 @@
 export const config = {
-  apiUrl: "http://127.0.0.1:1337",
+  apiUrl: "https://ipstack-kamilzielinskidev.herokuapp.com",
+  userPath: "/user",
   loginPath: "/auth/login",
   geolocationPath: "/geolocation",
 };

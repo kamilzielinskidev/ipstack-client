@@ -1,5 +1,5 @@
-import { getToken } from "../../auth";
 import { config } from "../../config";
+import { httpGet } from "../../services/httpService";
 
 export type Geolocation = {
   adress: string;
@@ -12,9 +12,4 @@ export type Geolocation = {
 export type Geolocations = Geolocation[];
 
 type GetAllResponse = Geolocations;
-export const getAll = () =>
-  fetch(`${config.apiUrl}${config.geolocationPath}`, {
-    headers: { Authorization: getToken()! },
-  })
-    .then((res) => res.json())
-    .then((body) => body as Geolocation[]);
+export const getAll = () => httpGet<GetAllResponse>(config.geolocationPath);

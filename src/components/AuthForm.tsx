@@ -5,7 +5,7 @@ type Props = {
   formSubmit: (login: string, password: string) => void;
 };
 
-export const LoginForm: React.FC<Props> = ({ formSubmit }) => {
+export const AuthForm: React.FC<Props> = ({ formSubmit }) => {
   const [userLogin, setUserLogin] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const handleSubmit = (e: React.MouseEvent) => {
@@ -19,8 +19,8 @@ export const LoginForm: React.FC<Props> = ({ formSubmit }) => {
         variant="outlined"
         required
         fullWidth
-        label="Email Address"
-        name="email"
+        label="Login"
+        name="login"
         margin="normal"
         autoFocus
         onChange={({ target: { value } }) => setUserLogin(value)}
@@ -42,7 +42,7 @@ export const LoginForm: React.FC<Props> = ({ formSubmit }) => {
         color="primary"
         onClick={handleSubmit}
       >
-        Sign In
+        submit
       </Button>
     </form>
   );
