@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Button, TextField } from "@material-ui/core";
+import React, { useState } from 'react';
+
+import { Button, TextField } from '@material-ui/core';
 
 type Props = {
   formSubmit: (login: string, password: string) => void;

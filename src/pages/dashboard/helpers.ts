@@ -1,5 +1,5 @@
 import { config } from "../../config";
-import { httpGet } from "../../services/httpService";
+import { httpDelete, httpGet, httpPost } from "../../services/httpService";
 
 export type Geolocation = {
   adress: string;
@@ -12,4 +12,9 @@ export type Geolocation = {
 export type Geolocations = Geolocation[];
 
 type GetAllResponse = Geolocations;
+
 export const getAll = () => httpGet<GetAllResponse>(config.geolocationPath);
+export const postOne = (query: string) =>
+  httpPost<Geolocation>(config.geolocationPath, { query });
+export const deleteOne = (query: string) =>
+  httpDelete<Geolocation>(`${config.geolocationPath}/${query}`);

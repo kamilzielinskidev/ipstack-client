@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { getToken } from "../auth";
+
 import { config } from "../config";
+import { getToken } from "./authService";
 
 const jsonRequest = <T>(
   url: string,
@@ -23,3 +24,5 @@ export const httpPost = <T>(url: string, body: any) =>
   jsonRequest<T>(url, "POST", body);
 
 export const httpGet = <T>(url: string) => jsonRequest<T>(url);
+
+export const httpDelete = <T>(url: string) => jsonRequest<T>(url, "DELETE");

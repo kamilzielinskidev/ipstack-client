@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   Paper,
   Table,
@@ -8,13 +9,18 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
+
 import { Geolocations } from "../helpers";
 
 type Props = {
   geolocations: Geolocations;
+  actions: (query: string) => React.ReactNode;
 };
 
-export const GeolocationTable: React.FC<Props> = ({ geolocations }) => (
+export const GeolocationTable: React.FC<Props> = ({
+  geolocations,
+  actions,
+}) => (
   <TableContainer component={Paper}>
     <Table>
       <TableHead>
@@ -25,6 +31,7 @@ export const GeolocationTable: React.FC<Props> = ({ geolocations }) => (
           <TableCell>City</TableCell>
           <TableCell align="right">Longitude</TableCell>
           <TableCell align="right">Latitude</TableCell>
+          <TableCell>Delete</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -37,6 +44,7 @@ export const GeolocationTable: React.FC<Props> = ({ geolocations }) => (
               <TableCell>{city}</TableCell>
               <TableCell align="right">{longitude.toFixed(3)}</TableCell>
               <TableCell align="right">{latitude.toFixed(3)}</TableCell>
+              <TableCell>{actions(ip)}</TableCell>
             </TableRow>
           )
         )}

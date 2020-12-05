@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import {
-  CircularProgress,
-  Container,
-  Grid,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
-import { AlertProps } from "@material-ui/lab/Alert";
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { Alert } from "../../components/Alert";
-import { isTokenValid } from "../../auth";
-import { AuthForm } from "../../components";
-import { pluck } from "../../utils";
-import { login } from "./helpers";
+import { CircularProgress, Container, Grid, makeStyles, Typography } from '@material-ui/core';
+import { AlertProps } from '@material-ui/lab/Alert';
+
+import { AuthForm } from '../../components';
+import { Alert } from '../../components/Alert';
+import {
+    getToken, getTokenPayload, isTokenValid, setLocalStorageAuthToken
+} from '../../services/authService';
+import { useAuthState } from '../../store';
+import { pluck, tap } from '../../utils';
+import { loginRequest } from './helpers';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -33,6 +31,7 @@ export const Home = () => {
     { alertMessage, alertSeverity },
     setAlertMessage,
   ] = useState<AlertState>({ alertMessage: "", alertSeverity: undefined });
+  const { dispatchLogin } = useAuthState();
 
   useEffect(() => {
     validateToken();
@@ -43,15 +42,21 @@ export const Home = () => {
   };
 
   const validateToken = () => {
-    isTokenValid() && history.push("/dashboard");
+    const token = getToken();
+    token && isTokenValid(token) && history.push("/dashboard");
   };
 
   const handleSubmit = (userLogin: string, userPassword: string) => {
     setIsLoading(true);
 
-    login(userLogin, userPassword)
+    loginRequest(userLogin, userPassword)
       .then(pluck("token"))
-      .then((token) => localStorage.setItem("auth_token", token))
+      .then(tap(setLocalStorageAuthToken))
+      .then(
+        tap((jwtToken) =>
+          dispatchLogin({ ...getTokenPayload(jwtToken), jwtToken })
+        )
+      )
       .then(() =>
         setAlertMessage({
           alertMessage: "Logged in",

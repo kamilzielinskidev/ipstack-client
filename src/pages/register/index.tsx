@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+
 import {
   CircularProgress,
   Container,
@@ -9,10 +10,10 @@ import {
 } from "@material-ui/core";
 import { AlertProps } from "@material-ui/lab/Alert";
 
-import { isTokenValid } from "../../auth";
 import { AuthForm } from "../../components";
 import { Alert } from "../../components/Alert";
-import { regsiter as register } from "./helpers";
+import { getToken, isTokenValid } from "../../services/authService";
+import { registerRequest } from "./helpers";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -41,12 +42,13 @@ export const Register = () => {
   };
 
   const validateToken = () => {
-    isTokenValid() && history.push("/dashboard");
+    const token = getToken();
+    token && isTokenValid(token) && history.push("/dashboard");
   };
 
   const handleSubmit = (userLogin: string, userPassword: string) => {
     setIsLoading(true);
-    register(userLogin, userPassword)
+    registerRequest(userLogin, userPassword)
       .then(() =>
         setAlertMessage({
           alertMessage: "Account created",

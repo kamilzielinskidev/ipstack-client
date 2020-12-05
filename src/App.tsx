@@ -1,12 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 
+import { InitialAuth } from "./containers";
 import { Routing } from "./routing";
 
-export const App = () => (
-  <>
-    <Router>
-      <Routing></Routing>
-    </Router>
-  </>
-);
+export const App = () => {
+  return (
+    <InitialAuth>
+      <Routing />
+    </InitialAuth>
+  );
+};
