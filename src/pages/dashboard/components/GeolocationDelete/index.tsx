@@ -1,4 +1,5 @@
-import { FC } from "react";
+import React, { FC } from "react";
+
 import { Geolocation } from "../../dao";
 import { Component } from "./Component";
 import { Container } from "./Container";
