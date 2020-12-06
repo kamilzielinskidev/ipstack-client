@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from "react";
 
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField } from "@material-ui/core";
 
-type Props = {
-  formSubmit: (login: string, password: string) => void;
+export type AuthFormProps = {
+  submitAction: (login: string, password: string) => void;
 };
 
-export const AuthForm: React.FC<Props> = ({ formSubmit }) => {
+export const AuthForm: FC<AuthFormProps> = ({ submitAction }) => {
   const [userLogin, setUserLogin] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    formSubmit(userLogin, userPassword);
+    submitAction(userLogin, userPassword);
   };
 
   return (

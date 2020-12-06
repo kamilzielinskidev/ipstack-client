@@ -1,4 +1,4 @@
-import { createState, State, useState } from '@hookstate/core';
+import { createState, State, useState } from "@hookstate/core";
 
 type LoginPayload = {
   login: string;
@@ -17,9 +17,9 @@ const state = createState<AuthState>({ logged: false });
 
 const wrapState = (state: State<AuthState>) => ({
   state: state.value,
-  dispatchLogin: (payload: LoginPayload) =>
-    state.set({ logged: true, ...payload }),
-  dispatchLogout: () => state.set({ logged: false }),
+  loginUser: (payload: LoginPayload) => state.set({ logged: true, ...payload }),
+  logoutUser: () => state.set({ logged: false }),
 });
 
 export const useAuthState = () => wrapState(useState(state));
+export const authState = () => wrapState(state);

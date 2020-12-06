@@ -1,14 +1,14 @@
-import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import React, { FC } from "react";
+import { Redirect, Route } from "react-router-dom";
 
-import { useAuthState } from '../store';
+import { useAuthState } from "../state";
 
 type Props = {
   component: React.ComponentType;
   path: string;
 };
 
-export const GuardedRoute = ({ component: Component, path }: Props) => {
+export const GuardedRoute: FC<Props> = ({ component: Component, path }) => {
   const {
     state: { logged },
   } = useAuthState();

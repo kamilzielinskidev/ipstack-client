@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 import { config } from "../config";
-import { getToken } from "./authService";
+import { getToken } from "./token";
 
 const jsonRequest = <T>(
   url: string,

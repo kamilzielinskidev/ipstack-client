@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 
-import {
-  getToken,
-  getTokenPayload,
-  isTokenValid,
-} from "../services/authService";
-import { useAuthState } from "../store";
+import { getToken, getTokenPayload, isTokenValid } from "../helpers/token";
+import { useAuthState } from "../state";
 
-export const InitialAuth: React.FC = ({ children }) => {
-  const { dispatchLogin } = useAuthState();
+export const InitialAuth: FC = ({ children }) => {
+  const { loginUser: dispatchLogin } = useAuthState();
 
   useEffect(() => {
     checkIfAlreadyLogged();

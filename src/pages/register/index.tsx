@@ -1,89 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { FC, useEffect } from "react";
+import { useHistory, Link as RouterLink } from "react-router-dom";
+import { Container, Link, Typography } from "@material-ui/core";
 
-import {
-  CircularProgress,
-  Container,
-  Grid,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
-import { AlertProps } from "@material-ui/lab/Alert";
+import { CenteredSpinner } from "../../components";
+import { ifTokenValid } from "../../helpers/token";
+import { SignUpForm } from "./components";
+import { useRegisterState } from "./state";
 
-import { AuthForm } from "../../components";
-import { Alert } from "../../components/Alert";
-import { getToken, isTokenValid } from "../../services/authService";
-import { registerRequest } from "./helpers";
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    paddingTop: theme.spacing(8),
-  },
-}));
-
-type AlertState = {
-  alertMessage: string;
-  alertSeverity: AlertProps["severity"];
-};
-
-export const Register = () => {
+export const Register: FC = () => {
   const history = useHistory();
-  const [isLoading, setIsLoading] = useState(false);
-  const [
-    { alertMessage, alertSeverity },
-    setAlertMessage,
-  ] = useState<AlertState>({ alertMessage: "", alertSeverity: undefined });
+  const { loading } = useRegisterState();
+
+  const goToDashboard = () => history.push("/dashboard");
+
   useEffect(() => {
-    validateToken();
+    ifTokenValid(goToDashboard);
   }, []);
 
-  const closeAlert = () => {
-    setAlertMessage({ alertMessage: "", alertSeverity: undefined });
-  };
-
-  const validateToken = () => {
-    const token = getToken();
-    token && isTokenValid(token) && history.push("/dashboard");
-  };
-
-  const handleSubmit = (userLogin: string, userPassword: string) => {
-    setIsLoading(true);
-    registerRequest(userLogin, userPassword)
-      .then(() =>
-        setAlertMessage({
-          alertMessage: "Account created",
-          alertSeverity: "success",
-        })
-      )
-      .then(() => {
-        history.push("/");
-        setIsLoading(false);
-      })
-      .catch(({ error: { message } }) => {
-        setAlertMessage({ alertMessage: message, alertSeverity: "error" });
-        setIsLoading(false);
-      });
-  };
-
   return (
-    <Container component="main" maxWidth="xs" className={useStyles().container}>
-      {isLoading ? (
-        <Grid container justifyContent="center">
-          <CircularProgress />
-        </Grid>
+    <Container component="main" maxWidth="xs" style={{ paddingTop: 100 }}>
+      {loading ? (
+        <CenteredSpinner />
       ) : (
         <div>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <AuthForm formSubmit={handleSubmit}></AuthForm>
+          <SignUpForm />
+          <Link variant="body2" component={RouterLink} to="/">
+            Already have an account?
+          </Link>
         </div>
       )}
-      <Alert
-        message={alertMessage}
-        severity={alertSeverity}
-        onClose={closeAlert}
-      ></Alert>
     </Container>
   );
 };

@@ -1,10 +1,10 @@
-import React from "react";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import React, { FC } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { GuardedRoute } from "./GuardedRoute";
 import { routes } from "./routes";
 
-export const Routing = () => (
+export const Routing: FC = () => (
   <Router>
     <Switch>
       {routes.map(({ path, guarded, ReactComponent }) =>

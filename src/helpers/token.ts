@@ -1,4 +1,4 @@
-import jwtDecode from 'jwt-decode';
+import jwtDecode from "jwt-decode";
 
 type JWTTokenPayload = {
   login: string;
@@ -15,3 +15,8 @@ export const isTokenValid = (token: string) =>
 
 export const setLocalStorageAuthToken = (token: string) =>
   localStorage.setItem("auth_token", token);
+
+export const ifTokenValid = (callback: () => void) => {
+  const token = getToken();
+  token && isTokenValid(token) && callback();
+};
