@@ -1,1 +1,2 @@
 - [ ] success and error alerts
+- [ ] lint the project
