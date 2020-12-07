@@ -4,11 +4,14 @@ type RegisterState = {
   loading: boolean;
 };
 
-const state = createState<RegisterState>({ loading: false });
+const initialState: RegisterState = { loading: false };
+
+const state = createState<RegisterState>(initialState);
 
 const wrapState = (state: State<RegisterState>) => ({
   loading: state.value.loading,
-  setLoading: state.loading.set,
+  setLoadingTrue: () => state.loading.set(true),
+  setLoadingFalse: () => state.loading.set(false),
 });
 
 export const useRegisterState = () => wrapState(useState(state));

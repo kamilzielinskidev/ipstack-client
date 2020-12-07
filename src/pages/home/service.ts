@@ -1,14 +1,12 @@
 import { getTokenPayload, setLocalStorageAuthToken } from "../../helpers/token";
-import { authState } from "../../state";
+import { alertState, authState } from "../../state";
 import { pluck, tap } from "../../utils";
 import { loginRequest } from "./dao";
 import { homeState } from "./state";
 
-const { setLoading } = homeState();
-const { loginUser } = authState();
-
-const setLoadingTrue = () => setLoading(true);
-const setLoadingFalse = () => setLoading(false);
+const { setLoadingTrue, setLoadingFalse } = homeState();
+const { setUser } = authState();
+const { setSuccessAlert, setErrorAlert } = alertState();
 
 export const authorizeUser = (login: string, password: string) => {
   setLoadingTrue();
@@ -16,7 +14,9 @@ export const authorizeUser = (login: string, password: string) => {
     .then(pluck("token"))
     .then(tap(setLocalStorageAuthToken))
     .then(
-      tap((jwtToken) => loginUser({ ...getTokenPayload(jwtToken), jwtToken }))
+      tap((jwtToken) => setUser({ ...getTokenPayload(jwtToken), jwtToken }))
     )
-    .then(tap(setLoadingFalse));
+    .then(() => setSuccessAlert("User authorized successfully."))
+    .then(setLoadingFalse)
+    .catch(({ error: { message } }) => setErrorAlert(message));
 };

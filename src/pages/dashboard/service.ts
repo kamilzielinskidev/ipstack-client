@@ -1,3 +1,4 @@
+import { alertState } from "../../state";
 import { tap } from "../../utils";
 import {
   deleteOneGeolocation,
@@ -6,10 +7,8 @@ import {
 } from "./dao";
 import { dashboardState } from "./state";
 
-const { setLoading, setGeolocations } = dashboardState();
-
-const setLoadingTrue = () => setLoading(true);
-const setLoadingFalse = () => setLoading(false);
+const { setLoadingTrue, setLoadingFalse, setGeolocations } = dashboardState();
+const { setErrorAlert, setSuccessAlert } = alertState();
 
 export const fetchGeolocations = () => {
   setLoadingTrue();
@@ -22,12 +21,16 @@ export const deleteGeolocation = (adress: string) => {
   setLoadingTrue();
   return deleteOneGeolocation(adress)
     .then(tap(fetchGeolocations))
-    .then(tap(setLoadingFalse));
+    .then(tap(() => setSuccessAlert("Deleted successfully")))
+    .then(tap(setLoadingFalse))
+    .catch(({ error: { message } }) => setErrorAlert(message));
 };
 
 export const saveGeolocation = (query: string) => {
   setLoadingTrue();
   return postOneGeolocation(query)
     .then(tap(fetchGeolocations))
-    .then(tap(setLoadingFalse));
+    .then(tap(() => setSuccessAlert("Saved successfully")))
+    .then(tap(setLoadingFalse))
+    .catch(({ error: { message } }) => setErrorAlert(message));
 };

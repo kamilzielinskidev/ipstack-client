@@ -1,21 +1,14 @@
-import React, { FC, useEffect } from "react";
-import { useHistory, Link as RouterLink } from "react-router-dom";
+import React, { FC } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { Container, Link, Typography } from "@material-ui/core";
 
 import { CenteredSpinner } from "../../components";
-import { ifTokenValid } from "../../helpers/token";
+
 import { SignUpForm } from "./components";
 import { useRegisterState } from "./state";
 
 export const Register: FC = () => {
-  const history = useHistory();
   const { loading } = useRegisterState();
-
-  const goToDashboard = () => history.push("/dashboard");
-
-  useEffect(() => {
-    ifTokenValid(goToDashboard);
-  }, []);
 
   return (
     <Container component="main" maxWidth="xs" style={{ paddingTop: 100 }}>

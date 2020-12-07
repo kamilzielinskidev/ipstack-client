@@ -2,13 +2,17 @@ import React, { FC } from "react";
 import { Snackbar as MaterialSnackbar } from "@material-ui/core";
 import { Alert as MuiAlert, AlertProps } from "@material-ui/lab";
 
-type Props = {
+export type ComponentProps = {
   message: string;
   onClose: () => void;
   severity: AlertProps["severity"];
 };
 
-export const Alert: FC<Props> = ({ message, onClose, severity }) => (
+export const Component: FC<ComponentProps> = ({
+  message,
+  onClose,
+  severity,
+}) => (
   <MaterialSnackbar
     anchorOrigin={{
       vertical: "bottom",
