@@ -1,12 +1,21 @@
-import { Dashboard, Home, Register } from '../pages';
+import { Dashboard, Home, Register } from "../pages";
 
 type Route = {
   path: string;
+  component: React.ComponentType;
   guarded?: boolean;
-  ReactComponent: React.ComponentType;
+  redirectIfAuthorized?: string;
 };
 export const routes: Route[] = [
-  { path: "/dashboard", guarded: true, ReactComponent: Dashboard },
-  { path: "/register", ReactComponent: Register },
-  { path: "/", ReactComponent: Home },
+  { path: "/dashboard", guarded: true, component: Dashboard },
+  {
+    path: "/register",
+    component: Register,
+    redirectIfAuthorized: "/dashboard",
+  },
+  {
+    path: "/",
+    component: Home,
+    redirectIfAuthorized: "/dashboard",
+  },
 ];

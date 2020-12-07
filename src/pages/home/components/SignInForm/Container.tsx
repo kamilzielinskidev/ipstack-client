@@ -15,5 +15,6 @@ export const Container: FC<ContainerProps> = ({ component: Component }) => {
   const handleSubmit = (login: string, password: string) => {
     authorizeUser(login, password).then(goToDashboard);
   };
+
   return <Component submitAction={handleSubmit} />;
 };

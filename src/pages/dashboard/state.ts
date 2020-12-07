@@ -6,11 +6,14 @@ type DashboardState = {
   geolocations: Geolocations;
 };
 
-const state = createState<DashboardState>({ loading: false, geolocations: [] });
+const initialState: DashboardState = { loading: false, geolocations: [] };
+
+const state = createState<DashboardState>(initialState);
 
 const wrapState = (state: State<DashboardState>) => ({
   loading: state.value.loading,
-  setLoading: state.loading.set,
+  setLoadingTrue: () => state.loading.set(true),
+  setLoadingFalse: () => state.loading.set(false),
   geolocations: state.value.geolocations,
   setGeolocations: state.geolocations.set,
 });

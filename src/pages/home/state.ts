@@ -4,11 +4,14 @@ type HomeState = {
   loading: boolean;
 };
 
-const state = createState<HomeState>({ loading: false });
+const initialState: HomeState = { loading: false };
+
+const state = createState<HomeState>(initialState);
 
 const wrapState = (state: State<HomeState>) => ({
   loading: state.value.loading,
-  setLoading: state.loading.set,
+  setLoadingTrue: () => state.loading.set(true),
+  setLoadingFalse: () => state.loading.set(false),
 });
 
 export const useHomeState = () => wrapState(useState(state));

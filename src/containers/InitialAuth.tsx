@@ -1,21 +1,19 @@
 import React, { FC, useEffect } from "react";
 
-import { getToken, getTokenPayload, isTokenValid } from "../helpers/token";
+import { checkIfTokenValid, getTokenPayload } from "../helpers/token";
 import { useAuthState } from "../state";
+import { tap } from "../utils";
 
 export const InitialAuth: FC = ({ children }) => {
-  const { loginUser: dispatchLogin } = useAuthState();
+  const { setUser } = useAuthState();
 
   useEffect(() => {
-    checkIfAlreadyLogged();
+    checkIfTokenValid()
+      .then(
+        tap((token) => setUser({ ...getTokenPayload(token), jwtToken: token }))
+      )
+      .catch(() => {});
   }, []);
-
-  const checkIfAlreadyLogged = () => {
-    const token = getToken();
-    token &&
-      isTokenValid(token) &&
-      dispatchLogin({ ...getTokenPayload(token), jwtToken: token });
-  };
 
   return <>{children}</>;
 };

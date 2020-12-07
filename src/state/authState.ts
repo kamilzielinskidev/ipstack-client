@@ -6,19 +6,21 @@ type LoginPayload = {
   jwtToken: string;
 };
 
-type AuthState = {
+export type AuthState = {
   logged: boolean;
   login?: string;
   role?: string[];
   jwtToken?: string;
 };
 
-const state = createState<AuthState>({ logged: false });
+const initialState: AuthState = { logged: false };
+
+const state = createState<AuthState>(initialState);
 
 const wrapState = (state: State<AuthState>) => ({
   state: state.value,
-  loginUser: (payload: LoginPayload) => state.set({ logged: true, ...payload }),
-  logoutUser: () => state.set({ logged: false }),
+  setUser: (payload: LoginPayload) => state.set({ logged: true, ...payload }),
+  clearUser: () => state.set({ logged: false }),
 });
 
 export const useAuthState = () => wrapState(useState(state));

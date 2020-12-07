@@ -16,7 +16,8 @@ export const isTokenValid = (token: string) =>
 export const setLocalStorageAuthToken = (token: string) =>
   localStorage.setItem("auth_token", token);
 
-export const ifTokenValid = (callback: () => void) => {
-  const token = getToken();
-  token && isTokenValid(token) && callback();
-};
+export const checkIfTokenValid = () =>
+  new Promise<string>((res, rej) => {
+    const token = getToken();
+    token && isTokenValid(token) ? res(token) : rej(new Error("TOKEN_INVALID"));
+  });
